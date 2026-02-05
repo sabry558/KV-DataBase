@@ -1,0 +1,8 @@
+# Requirements for KV Database
+
+# Testing
+pytest>=7.0.0
+
+# Optional: For enhanced embeddings (not required for basic functionality)
+# sentence-transformers>=2.2.0
+# numpy>=1.21.0
