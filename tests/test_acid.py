@@ -27,9 +27,9 @@ class TestServerManager:
         self.data_dir = data_dir
         self.process = None
     
-    def start(self):
+    def start(self, clean: bool = True):
         """Start the server."""
-        if os.path.exists(self.data_dir):
+        if clean and os.path.exists(self.data_dir):
             shutil.rmtree(self.data_dir)
         os.makedirs(self.data_dir, exist_ok=True)
         
@@ -193,7 +193,7 @@ class TestDurabilityWithKill:
         time.sleep(1)
         
         # Restart and verify
-        manager.start()
+        manager.start(clean=False)
         
         client = KVClient("127.0.0.1", port)
         
@@ -254,7 +254,7 @@ class TestDurabilityWithKill:
                     manager.kill_hard()
                     kill_count += 1
                     time.sleep(0.5)
-                    manager.start()
+                    manager.start(clean=False)
                 except Exception:
                     pass
         
@@ -282,7 +282,7 @@ class TestDurabilityWithKill:
             manager.stop()
         except:
             pass
-        manager.start()
+        manager.start(clean=False)
         
         # Verify acknowledged writes
         client = KVClient("127.0.0.1", port)

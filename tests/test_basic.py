@@ -25,10 +25,10 @@ class TestServerManager:
         self.data_dir = data_dir
         self.process = None
     
-    def start(self):
+    def start(self, clean: bool = True):
         """Start the server."""
-        # Clean data directory
-        if os.path.exists(self.data_dir):
+        # Clean data directory (only if clean=True)
+        if clean and os.path.exists(self.data_dir):
             shutil.rmtree(self.data_dir)
         os.makedirs(self.data_dir, exist_ok=True)
         
@@ -184,7 +184,7 @@ class TestPersistence:
         time.sleep(1)
         
         # Restart server
-        manager.start()
+        manager.start(clean=False)
         
         # Check data persisted
         client = KVClient("127.0.0.1", port)
@@ -218,7 +218,7 @@ class TestPersistence:
         time.sleep(1)
         
         # Restart
-        manager.start()
+        manager.start(clean=False)
         
         client = KVClient("127.0.0.1", port)
         
